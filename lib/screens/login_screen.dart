@@ -14,45 +14,62 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(debugLabel: 'formKey');
   String? _email, _password;
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-          body: SizedBox(
-              child: Column(children: <Widget>[
-        Expanded(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: Svg('assets/images/register.svg', size: Size(120, 100)),
-                fit: BoxFit.contain,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: SizedBox(
+                child: Column(children: <Widget>[
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: Svg('assets/images/register.svg',
+                          size: Size(120, 100)),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(_deviceWidth! * 0.3),
-            ),
-            border: Border.all(color: Colors.black, width: 1.5),
-          ),
-          height: _deviceHeight! * 0.6905,
-          child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              _title(),
-              _loginForm(),
-              _loginButton(),
-            ],
-          )),
-        ),
-      ]))),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(_deviceWidth! * 0.3),
+                  ),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                ),
+                height: _deviceHeight! * 0.6905,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    SizedBox(
+                      height: _deviceHeight! * 0.04,
+                    ),
+                    _title(),
+                    _loginForm(),
+                    SizedBox(
+                      height: _deviceHeight! * 0.04,
+                    ),
+                    _loginButton(),
+                  ],
+                )),
+              ),
+            ]))),
+      ),
     );
   }
 
@@ -80,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _loginForm() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight! * 0.20,
       child: Form(
           key: _formKey,
@@ -94,8 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _emailTextField() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
@@ -111,15 +129,16 @@ class _LoginScreenState extends State<LoginScreen> {
           bool result =
               RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                   .hasMatch(value!);
-          result ? null : 'Please enter a valid email';
+          return result ? null : 'Please enter a valid email';
         },
       ),
     );
   }
 
   Widget _passwordTextField() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       child: TextFormField(
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
@@ -143,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginButton() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: _loginUser,
       minWidth: _deviceWidth! * 0.70,
       height: _deviceHeight! * 0.06,
       color: themeColors[0],
@@ -155,5 +174,10 @@ class _LoginScreenState extends State<LoginScreen> {
         style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
+  }
+
+  void _loginUser() {
+    print(_formKey.currentState!.validate());
+    if (_formKey.currentState!.validate()) {}
   }
 }

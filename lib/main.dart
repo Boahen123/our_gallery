@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:our_gallery/data/theme_colors.dart';
+// import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/screens/login_screen.dart';
 import 'package:our_gallery/screens/register_screen.dart';
 

@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   double? _deviceHeight, _deviceWidth;
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(debugLabel: 'formKey');
+  String? _email, _password;
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -81,10 +82,62 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _loginForm() {
     return Container(
       height: _deviceHeight! * 0.20,
-      child: const Form(
+      child: Form(
+          key: _formKey,
           child: Column(
-        children: [],
-      )),
+            children: <Widget>[
+              _emailTextField(),
+              _passwordTextField(),
+            ],
+          )),
+    );
+  }
+
+  Widget _emailTextField() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(
+          hintText: 'Email..',
+          prefixIcon: Icon(Icons.email),
+        ),
+        onSaved: (String? value) {
+          setState(() {
+            _email = value;
+          });
+        },
+        validator: (String? value) {
+          bool result =
+              RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                  .hasMatch(value!);
+          result ? null : 'Please enter a valid email';
+        },
+      ),
+    );
+  }
+
+  Widget _passwordTextField() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: TextFormField(
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
+        decoration: const InputDecoration(
+          hintText: 'Password..',
+          prefixIcon: Icon(Icons.lock),
+        ),
+        onSaved: (String? value) {
+          setState(() {
+            _password = value;
+          });
+        },
+        validator: (String? value) {
+          return value!.length < 6
+              ? 'Password must be at least 6 characters'
+              : null;
+        },
+      ),
     );
   }
 

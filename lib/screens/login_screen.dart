@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(debugLabel: 'formKey');
   String? _email, _password;
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: _deviceHeight! * 0.04,
                     ),
                     _loginButton(),
+                    SizedBox(
+                      height: _deviceHeight! * 0.04,
+                    ),
+                    _registerScreenLink(),
                   ],
                 )),
               ),
@@ -98,10 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _loginForm() {
     return SizedBox(
-      height: _deviceHeight! * 0.20,
       child: Form(
           key: _formKey,
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               _emailTextField(),
               _passwordTextField(),
@@ -140,11 +145,21 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.all(8.0),
       margin: const EdgeInsets.all(8.0),
       child: TextFormField(
-        obscureText: true,
+        obscureText: obscureText,
         keyboardType: TextInputType.visiblePassword,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Password..',
-          prefixIcon: Icon(Icons.lock),
+          prefixIcon: const Icon(Icons.lock),
+          suffixIcon: IconButton(
+            icon: obscureText
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                obscureText = !obscureText;
+              });
+            },
+          ),
         ),
         onSaved: (String? value) {
           setState(() {
@@ -176,8 +191,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _registerScreenLink() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/register'),
+      child: Text(
+        "Don't have an account?",
+        style: TextStyle(
+            color: themeColors[0], fontSize: 15, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
   void _loginUser() {
-    print(_formKey.currentState!.validate());
     if (_formKey.currentState!.validate()) {}
   }
 }

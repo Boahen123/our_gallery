@@ -32,41 +32,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
-            child: Column(children: <Widget>[
-              Container(
-                height: _deviceHeight! * 0.3095,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image:
-                        Svg('assets/images/register.svg', size: Size(120, 100)),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(_deviceWidth! * 0.3),
-                  ),
-                  border: Border.all(color: Colors.black, width: 1.5),
-                ),
-                height: _deviceHeight! * 0.6905,
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    SizedBox(
-                      height: _deviceHeight! * 0.04,
+            child: GestureDetector(
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
+              },
+              child: Column(children: <Widget>[
+                Container(
+                  height: _deviceHeight! * 0.2,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: Svg('assets/images/register.svg',
+                          size: Size(120, 100)),
+                      fit: BoxFit.contain,
                     ),
-                    title('Sign Up'),
-                    _registrationForm(),
-                    actionButton(_deviceHeight, _deviceWidth, () {}, 'Sign Up'),
-                  ],
-                )),
-              ),
-            ]),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(_deviceWidth! * 0.3),
+                    ),
+                    border: Border.all(color: Colors.black, width: 1.5),
+                  ),
+                  height: _deviceHeight! * 0.75,
+                  child: Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      SizedBox(
+                        height: _deviceHeight! * 0.01,
+                      ),
+                      title('Sign Up'),
+                      SizedBox(
+                        height: _deviceHeight! * 0.01,
+                      ),
+                      _profileImageWidget(),
+                      _registrationForm(),
+                      actionButton(
+                          _deviceHeight, _deviceWidth, () {}, 'Sign Up'),
+                    ],
+                  )),
+                ),
+              ]),
+            ),
           )),
     ));
   }
@@ -86,6 +99,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               )
             ],
           )),
+    );
+  }
+
+  Widget _profileImageWidget() {
+    return Container(
+      height: _deviceHeight! * 0.1,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage('https://i.pravatar.cc/150?img=3'),
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 

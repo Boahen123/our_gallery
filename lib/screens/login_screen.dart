@@ -23,52 +23,53 @@ class _LoginScreenState extends State<LoginScreen> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: GestureDetector(
-          onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus) {
-              currentFocus.unfocus();
-            }
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Column(children: <Widget>[
-              illustration('login.svg', _deviceHeight),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(_deviceWidth! * 0.3),
-                  ),
-                  border: Border.all(color: Colors.black, width: 1.5),
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Column(children: <Widget>[
+          Flexible(flex: 1, child: illustration('login.svg', _deviceHeight)),
+          Flexible(
+            flex: 3,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(_deviceWidth! * 0.3),
                 ),
-                height: _deviceHeight! * 0.6905,
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    SizedBox(
-                      height: _deviceHeight! * 0.04,
-                    ),
-                    title('Login'),
-                    _loginForm(),
-                    SizedBox(
-                      height: _deviceHeight! * 0.04,
-                    ),
-                    actionButton(
-                        _deviceHeight, _deviceWidth, _loginUser, 'Login'),
-                    SizedBox(
-                      height: _deviceHeight! * 0.04,
-                    ),
-                    _registerScreenLink(),
-                  ],
-                )),
+                border: Border.all(color: Colors.black, width: 1.5),
               ),
-            ]),
+              // height: _deviceHeight! * 0.6905,
+              child: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  SizedBox(
+                    height: _deviceHeight! * 0.04,
+                  ),
+                  title('Login'),
+                  _loginForm(),
+                  SizedBox(
+                    height: _deviceHeight! * 0.04,
+                  ),
+                  actionButton(
+                      _deviceHeight, _deviceWidth, _loginUser, 'Login'),
+                  SizedBox(
+                    height: _deviceHeight! * 0.04,
+                  ),
+                  _registerScreenLink(),
+                ],
+              )),
+            ),
           ),
-        ));
+        ]),
+      ),
+    );
   }
 
   Widget _loginForm() {

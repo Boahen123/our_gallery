@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/register': (BuildContext context) =>
             const SafeArea(child: RegisterScreen()),
-        '/login': (BuildContext context) => const LoginScreen(),
+        '/login': (BuildContext context) =>
+            const SafeArea(child: LoginScreen()),
       },
       title: 'Our Gallery',
       theme: ThemeData(

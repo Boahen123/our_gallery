@@ -31,9 +31,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: Column(children: <Widget>[
-            Expanded(
-              child: Container(
+          body: SingleChildScrollView(
+            child: Column(children: <Widget>[
+              Container(
+                height: _deviceHeight! * 0.3095,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image:
@@ -42,31 +43,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(_deviceWidth! * 0.3),
-                ),
-                border: Border.all(color: Colors.black, width: 1.5),
-              ),
-              height: _deviceHeight! * 0.6905,
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  SizedBox(
-                    height: _deviceHeight! * 0.04,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(_deviceWidth! * 0.3),
                   ),
-                  title('Sign Up'),
-                  _registrationForm(),
-                  actionButton(_deviceHeight, _deviceWidth, () {}, 'Sign Up'),
-                ],
-              )),
-            ),
-          ])),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                ),
+                height: _deviceHeight! * 0.6905,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    SizedBox(
+                      height: _deviceHeight! * 0.04,
+                    ),
+                    title('Sign Up'),
+                    _registrationForm(),
+                    actionButton(_deviceHeight, _deviceWidth, () {}, 'Sign Up'),
+                  ],
+                )),
+              ),
+            ]),
+          )),
     ));
   }
 

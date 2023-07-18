@@ -22,19 +22,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: SafeArea(
-        child: Scaffold(
-            resizeToAvoidBottomInset: true,
-            body: SizedBox(
-                child: Column(children: <Widget>[
-              illustration('login.svg'),
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(children: <Widget>[
+              illustration('login.svg', _deviceHeight),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -66,9 +66,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 )),
               ),
-            ]))),
-      ),
-    );
+            ]),
+          ),
+        ));
   }
 
   Widget _loginForm() {

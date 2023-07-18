@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:our_gallery/widgets/illustration.dart';
+import 'package:our_gallery/widgets/login_register.dart';
+import 'package:our_gallery/widgets/title.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,20 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             body: SizedBox(
                 child: Column(children: <Widget>[
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: Svg('assets/images/register.svg',
-                          size: Size(120, 100)),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ),
+              illustration('login.svg'),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -60,12 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: _deviceHeight! * 0.04,
                     ),
-                    _title(),
+                    title('Login'),
                     _loginForm(),
                     SizedBox(
                       height: _deviceHeight! * 0.04,
                     ),
-                    _loginButton(),
+                    actionButton(
+                        _deviceHeight, _deviceWidth, _loginUser, 'Login'),
                     SizedBox(
                       height: _deviceHeight! * 0.04,
                     ),
@@ -75,29 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ]))),
       ),
-    );
-  }
-
-  Widget _title() {
-    return Column(
-      children: [
-        Text(
-          'Our Gallery',
-          style: TextStyle(
-            color: themeColors[0],
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          'Login',
-          style: TextStyle(
-            color: themeColors[0],
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 
@@ -121,9 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
       margin: const EdgeInsets.all(8.0),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Email..',
-          prefixIcon: Icon(Icons.email),
+          prefixIcon: Icon(
+            Icons.email,
+            color: themeColors[0],
+          ),
         ),
         onSaved: (String? value) {
           setState(() {
@@ -149,7 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
           hintText: 'Password..',
-          prefixIcon: const Icon(Icons.lock),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: themeColors[0],
+          ),
           suffixIcon: IconButton(
             icon: obscureText
                 ? const Icon(Icons.visibility)
@@ -171,22 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ? 'Password must be at least 6 characters'
               : null;
         },
-      ),
-    );
-  }
-
-  Widget _loginButton() {
-    return MaterialButton(
-      onPressed: _loginUser,
-      minWidth: _deviceWidth! * 0.70,
-      height: _deviceHeight! * 0.06,
-      color: themeColors[0],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-      ),
-      child: const Text(
-        'Login',
-        style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }

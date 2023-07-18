@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
-        '/register': (BuildContext context) => const RegisterScreen(),
+        '/register': (BuildContext context) =>
+            const SafeArea(child: RegisterScreen()),
         '/login': (BuildContext context) => const LoginScreen(),
       },
       title: 'Our Gallery',

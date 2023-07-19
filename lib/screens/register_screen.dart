@@ -1,8 +1,10 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:our_gallery/widgets/login_register.dart';
 import 'package:our_gallery/widgets/title.dart';
+import 'dart:io';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,6 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       GlobalKey<FormState>(debugLabel: 'registrationformKey');
   String? _name, _email, _password;
   bool obscureText = true;
+  File? _profileImage;
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -103,15 +106,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _profileImageWidget() {
-    return Container(
-      height: _deviceHeight! * 0.1,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('https://i.pravatar.cc/150?img=3'),
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
+    var imageProvider = _profileImage != null
+        ? FileImage(_profileImage!)
+        : const Svg('assets/images/register.svg', size: Size(120, 100));
+    return GestureDetector(
+        onTap: () async {
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
+          if (result != null) {
+            setState(() {
+              _profileImage = File(result.files.first.path!);
+            });
+          }
+        },
+        child: Container(
+            height: _deviceHeight! * 0.1,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider as ImageProvider,
+                fit: BoxFit.contain,
+              ),
+            )));
   }
 
   Widget _nameText() {

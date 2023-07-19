@@ -76,8 +76,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       _profileImageWidget(),
                       _registrationForm(),
-                      actionButton(
-                          _deviceHeight, _deviceWidth, () {}, 'Sign Up'),
+                      actionButton(_deviceHeight, _deviceWidth, _registerUser,
+                          'Sign Up'),
                     ],
                   )),
                 ),
@@ -118,14 +118,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           }
         },
-        // child: Container(
-        //     height: _deviceHeight! * 0.1,
-        //     decoration: BoxDecoration(
-        //       image: DecorationImage(
-        //         image: imageProvider as ImageProvider,
-        //         fit: BoxFit.contain,
-        //       ),
-        //     ))
         child: CircleAvatar(
           radius: 50,
           backgroundImage: imageProvider as ImageProvider,
@@ -220,5 +212,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
       ),
     );
+  }
+
+  void _registerUser() {
+    if (_registrationFormKey.currentState!.validate() &&
+        _profileImage != null) {
+      _registrationFormKey.currentState!.save();
+      print('Name: $_name');
+      print('Email: $_email');
+      print('Password: $_password');
+    }
   }
 }

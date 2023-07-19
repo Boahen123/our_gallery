@@ -118,14 +118,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           }
         },
-        child: Container(
-            height: _deviceHeight! * 0.1,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider as ImageProvider,
-                fit: BoxFit.contain,
-              ),
-            )));
+        // child: Container(
+        //     height: _deviceHeight! * 0.1,
+        //     decoration: BoxDecoration(
+        //       image: DecorationImage(
+        //         image: imageProvider as ImageProvider,
+        //         fit: BoxFit.contain,
+        //       ),
+        //     ))
+        child: CircleAvatar(
+          radius: 50,
+          backgroundImage: imageProvider as ImageProvider,
+        ));
   }
 
   Widget _nameText() {

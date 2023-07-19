@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:our_gallery/screens/home_screen.dart';
 // import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/screens/login_screen.dart';
 import 'package:our_gallery/screens/register_screen.dart';
@@ -19,13 +20,14 @@ class MyApp extends StatelessWidget {
             const SafeArea(child: RegisterScreen()),
         '/login': (BuildContext context) =>
             const SafeArea(child: LoginScreen()),
+        '/home': (BuildContext context) => const SafeArea(child: HomeScreen())
       },
       title: 'Our Gallery',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/login',
+      initialRoute: '/home',
     );
   }
 }

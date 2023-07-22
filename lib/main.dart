@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:our_gallery/screens/home_screen.dart';
 // import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/screens/login_screen.dart';
 import 'package:our_gallery/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:our_gallery/services/firebase_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  GetIt.instance.registerSingleton<FirebaseService>(FirebaseService());
   runApp(const MyApp());
 }
 
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/home',
+      initialRoute: '/login',
     );
   }
 }

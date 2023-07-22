@@ -174,10 +174,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _loginUser() {
+  void _loginUser() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      bool _result = await _firebaseService!.loginUser(emailAddress: emailAddress, password: password)
+      bool result = await _firebaseService!
+          .loginUser(emailAddress: _email!, password: _password!);
+      if (result) {
+        Navigator.popAndPushNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed. Please try again.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 }

@@ -58,7 +58,7 @@ class FirebaseService {
   ///   a Future object that resolves to a Map.
 
   Future<Map> getUserData({required String uid}) async {
-    DocumentSnapshot _doc = await _db.collection(userCollection).doc(uid).get();
-    return _doc.data() as Map;
+    DocumentSnapshot doc = await _db.collection(userCollection).doc(uid).get();
+    return doc.data() as Map;
   }
 }

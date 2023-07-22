@@ -180,12 +180,48 @@ class _LoginScreenState extends State<LoginScreen> {
       bool result = await _firebaseService!
           .loginUser(emailAddress: _email!, password: _password!);
       if (result) {
+        // ignore: use_build_context_synchronously
+        if (!context.mounted) return;
         Navigator.popAndPushNamed(context, '/home');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login failed. Please try again.'),
-            duration: Duration(seconds: 3),
+        // ignore: use_build_context_synchronously
+        if (!context.mounted) return;
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: const Text(
+        //       'Login failed. Please try again.',
+        //       style: TextStyle(fontWeight: FontWeight.w700),
+        //     ),
+        //     duration: const Duration(seconds: 3),
+        //     behavior: SnackBarBehavior.floating,
+        //     shape: const RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        //     ),
+        //     backgroundColor: themeColors[0],
+        //     padding: const EdgeInsets.all(10.0),
+        //     width: _deviceWidth! * 0.7,
+        //   ),
+        ScaffoldMessenger.of(context).showMaterialBanner(
+          MaterialBanner(
+            padding: const EdgeInsets.all(20),
+            content: const Text(
+              'Login failed. Email or Password is incorrect.',
+              style: TextStyle(color: Colors.white),
+            ),
+            leading: const Icon(
+              Icons.error,
+              color: Colors.white,
+            ),
+            backgroundColor: themeColors[0],
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                },
+                child: const Text('DISMISS',
+                    style: TextStyle(color: Colors.white)),
+              ),
+            ],
           ),
         );
       }

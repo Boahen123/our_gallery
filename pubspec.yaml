@@ -37,6 +37,11 @@ dependencies:
   flutter_svg: '0.22.0'
   flutter_svg_provider: '0.1.9'
   file_picker: '5.2.5'
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.1
+  cloud_firestore: ^4.8.3
+  firebase_storage: ^11.2.5
+  get_it: ^7.6.0
 
 dev_dependencies:
   flutter_test:

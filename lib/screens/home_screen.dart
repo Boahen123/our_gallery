@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
+import 'package:our_gallery/screens/feed_screen.dart';
+import 'package:our_gallery/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,16 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String? selectedOption;
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    Container(
-      child: const Center(
-        child: Text('Feed'),
-      ),
-    ),
-    Container(
-      child: const Center(
-        child: Text('Profile'),
-      ),
-    ),
+    const FeedScreen(),
+    const ProfileScreen(),
   ];
 
   @override

@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
+import 'package:our_gallery/services/firebase_service.dart';
 import 'package:our_gallery/widgets/illustration.dart';
 import 'package:our_gallery/widgets/login_register.dart';
 import 'package:our_gallery/widgets/title.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
       GlobalKey<FormState>(debugLabel: 'formKey');
   String? _email, _password;
   bool obscureText = true;
+
+  FirebaseService? _firebaseService;
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseService = GetIt.I.get<FirebaseService>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginUser() {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      bool _result = await _firebaseService!.loginUser(emailAddress: emailAddress, password: password)
+    }
   }
 }

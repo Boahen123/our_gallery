@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-const userCollection = 'users';
+const String userCollection = 'users';
+const String postCollection = 'posts';
 
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -89,5 +90,43 @@ class FirebaseService {
       print(error);
       return false;
     }
+  }
+
+  /// The function `addImage` uploads an image file to Firebase storage and adds a corresponding document
+  /// to a Firestore collection with the image URL and other details.
+  ///
+  /// Args:
+  ///   addedImage (File): addedImage is a File object that represents the image file to be uploaded.
+  ///
+  /// Returns:
+  ///   a `Future<bool>`.
+  Future<bool> addImage(File addedImage) async {
+    try {
+      String userId = _auth.currentUser!.uid;
+      String fileName = Timestamp.now().microsecondsSinceEpoch.toString() +
+          p.extension(addedImage.path);
+      // Initial a task to upload image to Firebase storage
+      UploadTask task =
+          _storage.ref('postImages/$userId/$fileName').putFile(addedImage);
+      return task.then((snapshot) async {
+        String downloadURL = await snapshot.ref.getDownloadURL();
+        await _db.collection(postCollection).add({
+          'userId': userId,
+          'image': downloadURL,
+          'timestamp': Timestamp.now()
+        });
+        return true;
+      });
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+  Stream<QuerySnapshot> getPosts() {
+    return _db
+        .collection(postCollection)
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
 }

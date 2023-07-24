@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/screens/feed_screen.dart';
 import 'package:our_gallery/screens/profile_screen.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:our_gallery/services/firebase_service.dart';
+import 'package:get_it/get_it.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
     const FeedScreen(),
     const ProfileScreen(),
   ];
+  File? _addedImage;
+  FirebaseService? _firebaseService;
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseService = GetIt.I.get<FirebaseService>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 iconSize: _deviceHeight! * 0.03,
                 tooltip: 'Add a photo',
-                onPressed: () {},
+                onPressed: _addImage,
                 icon: const Icon(
                   Icons.add_a_photo,
                   color: Colors.white,
@@ -77,6 +90,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _addImage() async {
+    // var imageProvider = _addedImage != null
+    //     ? FileImage(_addedImage!)
+    //     : const Svg('assets/images/register.svg', size: Size(120, 100));
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      setState(() {
+        _addedImage = File(result.files.first.path!);
+      });
+    }
+    await _firebaseService!.addImage(_addedImage!);
   }
 
   Widget _bottomNavBar() {

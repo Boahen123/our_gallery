@@ -1,10 +1,14 @@
 import 'package:file_picker/file_picker.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:our_gallery/widgets/login_register.dart';
+import 'package:our_gallery/widgets/snackbar.dart';
 import 'package:our_gallery/widgets/title.dart';
 import 'dart:io';
+import 'package:get_it/get_it.dart';
+import 'package:our_gallery/services/firebase_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,6 +24,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _name, _email, _password;
   bool obscureText = true;
   File? _profileImage;
+  FirebaseService? _firebaseService;
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseService = GetIt.I.get<FirebaseService>();
+  }
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -214,10 +226,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _registerUser() {
+  void _registerUser() async {
     if (_registrationFormKey.currentState!.validate() &&
         _profileImage != null) {
       _registrationFormKey.currentState!.save();
+      bool result = await _firebaseService!.registerUser(
+          name: _name!,
+          email: _email!,
+          password: _password!,
+          profileImage: _profileImage!);
+      if (result) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(snackBar(
+            content: 'Registration Success', deviceWidth: _deviceWidth));
+        Navigator.pop(context);
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(snackBar(
+            content: 'Registration failed, try again',
+            deviceWidth: _deviceWidth));
+      }
       print('Name: $_name');
       print('Email: $_email');
       print('Password: $_password');

@@ -10,8 +10,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(child: Text('Profile Screen')),
+    return const SizedBox(
+      child: Center(child: Text('Profile Screen')),
     );
   }
 }

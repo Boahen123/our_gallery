@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:path/path.dart' as p;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -56,9 +58,36 @@ class FirebaseService {
   ///
   /// Returns:
   ///   a Future object that resolves to a Map.
-
   Future<Map> getUserData({required String uid}) async {
     DocumentSnapshot doc = await _db.collection(userCollection).doc(uid).get();
     return doc.data() as Map;
+  }
+
+  Future<bool> registerUser({
+    required String name,
+    required String email,
+    required String password,
+    required File profileImage,
+  }) async {
+    try {
+      UserCredential newUser = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      String userUid = newUser.user!.uid;
+      String fileName = Timestamp.now().millisecondsSinceEpoch.toString() +
+          p.extension(profileImage.path);
+      UploadTask task =
+          _storage.ref('images/$userUid/$fileName').putFile(profileImage);
+      return task.then((snapshot) async {
+        String downloadURL = await snapshot.ref.getDownloadURL();
+        await _db
+            .collection(userCollection)
+            .doc(userUid)
+            .set({'name': name, 'email': email, 'image': downloadURL});
+        return true;
+      });
+    } catch (error) {
+      print(error);
+      return false;
+    }
   }
 }

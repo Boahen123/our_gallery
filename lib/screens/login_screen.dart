@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/services/firebase_service.dart';
@@ -180,48 +180,24 @@ class _LoginScreenState extends State<LoginScreen> {
       bool result = await _firebaseService!
           .loginUser(emailAddress: _email!, password: _password!);
       if (result) {
-        // ignore: use_build_context_synchronously
-        if (!context.mounted) return;
+        if (!mounted) return;
         Navigator.popAndPushNamed(context, '/home');
       } else {
-        // ignore: use_build_context_synchronously
-        if (!context.mounted) return;
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: const Text(
-        //       'Login failed. Please try again.',
-        //       style: TextStyle(fontWeight: FontWeight.w700),
-        //     ),
-        //     duration: const Duration(seconds: 3),
-        //     behavior: SnackBarBehavior.floating,
-        //     shape: const RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        //     ),
-        //     backgroundColor: themeColors[0],
-        //     padding: const EdgeInsets.all(10.0),
-        //     width: _deviceWidth! * 0.7,
-        //   ),
-        ScaffoldMessenger.of(context).showMaterialBanner(
-          MaterialBanner(
-            padding: const EdgeInsets.all(20),
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
             content: const Text(
-              'Login failed. Email or Password is incorrect.',
-              style: TextStyle(color: Colors.white),
+              'Login failed. Please try again.',
+              style: TextStyle(fontWeight: FontWeight.w700),
             ),
-            leading: const Icon(
-              Icons.error,
-              color: Colors.white,
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
             backgroundColor: themeColors[0],
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                },
-                child: const Text('DISMISS',
-                    style: TextStyle(color: Colors.white)),
-              ),
-            ],
+            padding: const EdgeInsets.all(10.0),
+            width: _deviceWidth! * 0.7,
           ),
         );
       }

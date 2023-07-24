@@ -10,8 +10,8 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(child: Text('Feed Screen')),
+    return const SizedBox(
+      child: Center(child: Text('Feed Screen')),
     );
   }
 }

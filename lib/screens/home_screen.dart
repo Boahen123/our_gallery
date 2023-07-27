@@ -62,7 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 iconSize: _deviceHeight! * 0.03,
                 tooltip: 'log out',
-                onPressed: () {},
+                onPressed: () async {
+                  await _firebaseService!.logout();
+                  if (!mounted) return;
+                  Navigator.popAndPushNamed(context, '/login');
+                },
                 icon: const Icon(
                   Icons.logout,
                   color: Colors.white,
@@ -101,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _addedImage = File(result.files.first.path!);
       });
+      await _firebaseService!.addImage(_addedImage!);
     }
-    await _firebaseService!.addImage(_addedImage!);
   }
 
   Widget _bottomNavBar() {

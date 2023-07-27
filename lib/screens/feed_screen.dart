@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/services/firebase_service.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -38,7 +39,6 @@ class _FeedScreenState extends State<FeedScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           print(snapshot.data!.docs);
-
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -57,8 +57,8 @@ class _FeedScreenState extends State<FeedScreen> {
             },
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(color: themeColors[0]),
           );
         }
       },

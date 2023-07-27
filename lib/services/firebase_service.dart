@@ -123,10 +123,32 @@ class FirebaseService {
     }
   }
 
+  /// The function returns a stream of query snapshots for posts, ordered by timestamp in descending
+  /// order.
+  ///
+  /// Returns:
+  ///   a Stream of QuerySnapshot objects.
   Stream<QuerySnapshot> getPosts() {
     return _db
         .collection(postCollection)
         .orderBy('timestamp', descending: true)
         .snapshots();
+  }
+
+  /// The function returns a stream of query snapshots for posts belonging to the current user.
+  ///
+  /// Returns:
+  ///   a Stream of QuerySnapshot.
+  Stream<QuerySnapshot> getPostsOfUser() {
+    String userID = _auth.currentUser!.uid;
+    return _db
+        .collection(postCollection)
+        .where('userId', isEqualTo: userID)
+        .orderBy('timestamp')
+        .snapshots();
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
   }
 }

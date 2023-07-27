@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:our_gallery/screens/home_screen.dart';
-// import 'package:our_gallery/data/theme_colors.dart';
 import 'package:our_gallery/screens/login_screen.dart';
 import 'package:our_gallery/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';

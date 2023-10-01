@@ -138,25 +138,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _nameText() {
     return Container(
-      padding: const EdgeInsets.all(8.0),
       margin: const EdgeInsets.all(8.0),
-      child: Flexible(
-        child: TextFormField(
-            keyboardType: TextInputType.name,
-            decoration: InputDecoration(
-                hintText: 'Name..',
-                prefixIcon: Icon(
-                  Icons.person,
-                  color: themeColors[0],
-                )),
-            validator: (value) =>
-                value!.isEmpty ? 'Name cannot be empty' : null,
-            onSaved: (value) {
-              setState(() {
-                _name = value;
-              });
-            }),
-      ),
+      padding: const EdgeInsets.all(8.0),
+      child: Flex(
+          direction: Axis.vertical,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: TextFormField(
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                      hintText: 'Name..',
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: themeColors[0],
+                      )),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Name cannot be empty' : null,
+                  onSaved: (value) {
+                    setState(() {
+                      _name = value;
+                    });
+                  }),
+            ),
+          ]),
     );
   }
 
